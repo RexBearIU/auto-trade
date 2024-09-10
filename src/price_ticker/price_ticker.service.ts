@@ -79,17 +79,7 @@ export class PriceTickerService {
   ): Promise<any> {
     const { data } = await firstValueFrom(
       this.httpService.get<any>(
-        'https://api.tidebit-defi.com/api/v2' +
-          '/candlesticks/' +
-          instId +
-          '?timeSpan=' +
-          timeSpan +
-          '&begin=' +
-          begin +
-          '&end=' +
-          end +
-          '&limit=' +
-          limit,
+        `${DOMAIN_BACKEND}/v2/candlesticks/${instId}?timeSpan=${timeSpan}&begin=${begin}&end=${end}&limit=${limit}`,
       ),
     );
     return data;
