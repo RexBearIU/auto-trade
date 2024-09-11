@@ -29,16 +29,15 @@ export class TradebotService {
         tradebot.wallet.address,
         tradebot.wallet.privateKey.slice(2),
       );
+      console.log('tradebot.dewt: ', tradebot.dewt);
       // TODO: (20240315 Jacky) : Should store the tradebot in the database in the future
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 2; i++) {
         const register = await this.userService.registerUser(
           tradebot.wallet.address,
           tradebot.dewt,
         );
+        console.log('register: ', register);
         if (register.success == true) {
-          this.logger.log(
-            'Tradebot ' + tradebot.id + ' regist is ' + register.success,
-          );
           // TODO: maybe add the tradebot to the database
           this.tradebotArray.push(tradebot);
           this.logger.log(
@@ -52,6 +51,7 @@ export class TradebotService {
           return tradebot;
         }
       }
+      throw new Error('Failed to register tradebot' + tradebot.id);
     } catch (error) {
       this.logger.error('Error creating tradebot: ' + error.message);
     }
@@ -68,8 +68,9 @@ export class TradebotService {
     const tradebot = this.tradebotArray.find((tradebot) => tradebot.id === id);
     if (!tradebot) {
       this.logger.error('Tradebot not found');
+    } else {
+      this.logger.log('Tradebot ' + tradebot.id + ' is found');
     }
-    this.logger.log('Tradebot ' + tradebot.id + ' is found');
     return tradebot;
   }
 

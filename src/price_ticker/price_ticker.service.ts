@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { QuotationDto } from './dto/quotation.dto';
 import { CandlestickDto } from './dto/candlestick.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { DOMAIN_BACKEND } from '../common/constants/config';
+import { apiV1, apiV2, DOMAIN_BACKEND } from '../common/constants/config';
 
 @Injectable()
 export class PriceTickerService {
@@ -22,7 +22,7 @@ export class PriceTickerService {
   ): Promise<QuotationDto> {
     const { data } = await firstValueFrom(
       this.httpService.get<QuotationDto>(
-        DOMAIN_BACKEND + '/market/quotation/' + instId,
+        `${DOMAIN_BACKEND}${apiV1}/market/quotation/${instId}`,
         {
           params: {
             typeOfPosition: typeOfPosition,
@@ -36,7 +36,7 @@ export class PriceTickerService {
   async fetchTickers(instId: string = 'ETH-USDT'): Promise<number[]> {
     const { data } = await firstValueFrom(
       this.httpService.get<any>(
-        DOMAIN_BACKEND + '/market/tickers?limit=50&timespan=5m',
+        `${DOMAIN_BACKEND}${apiV1}/market/tickers?limit=50&timespan=5m`,
       ),
     );
     if (instId === 'ETH-USDT') {
@@ -57,13 +57,7 @@ export class PriceTickerService {
   ): Promise<number[]> {
     const { data } = await firstValueFrom(
       this.httpService.get<CandlestickDto>(
-        DOMAIN_BACKEND +
-          '/candlesticks/' +
-          instId +
-          '?timeSpan=' +
-          timeSpan +
-          '&limit=' +
-          limit,
+        `${DOMAIN_BACKEND}${apiV1}/candlesticks/${instId}?timeSpan=${timeSpan}&limit=${limit}`,
       ),
     );
     const priceArray = data.data.candlesticks.map((item) => item.y.close);
@@ -79,7 +73,7 @@ export class PriceTickerService {
   ): Promise<any> {
     const { data } = await firstValueFrom(
       this.httpService.get<any>(
-        `${DOMAIN_BACKEND}/v2/candlesticks/${instId}?timeSpan=${timeSpan}&begin=${begin}&end=${end}&limit=${limit}`,
+        `${DOMAIN_BACKEND}${apiV2}/candlesticks/${instId}?timeSpan=${timeSpan}&begin=${begin}&end=${end}&limit=${limit}`,
       ),
     );
     return data;

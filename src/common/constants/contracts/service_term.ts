@@ -1,4 +1,4 @@
-import { DOMAIN } from '../config';
+import { DOMAIN, SERVICE_TERM_TITLE } from '../config';
 
 const ServiceTerm = {
   domain: {
@@ -19,7 +19,7 @@ const ServiceTerm = {
   - This is DApp Specific
   - Be as explicit as possible when building out the message schema.
   */
-    title: 'ServiceTerm',
+    title: SERVICE_TERM_TITLE,
     /* Deprecate: replace with following content (20230407 - tzuhan)
     content: 'You are going to use TideBit-DeFi and agree every rules in TideBit',
     from: '0xCAFECAAd15f96E1EfcD846e1ae27115645C6D606',

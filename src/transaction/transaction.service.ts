@@ -14,7 +14,7 @@ import CFDOrderClose from '../common/constants/contracts/cfd_close';
 import { MarginDto } from './dto/margin.dto';
 import { ReturnCloseCFDOrderDto } from './dto/returnCloseCFDOrder.dto';
 import { ReturnCreateCFDOrderDto } from './dto/returnCreateCFDOrder.dto';
-import { DOMAIN_BACKEND } from '../common/constants/config';
+import { apiV1, DOMAIN_BACKEND } from '../common/constants/config';
 
 @Injectable()
 export class TransactionService {
@@ -35,7 +35,7 @@ export class TransactionService {
   ): Promise<ReturnDeposit> {
     const { data } = await firstValueFrom(
       this.httpService.post<ReturnDeposit>(
-        DOMAIN_BACKEND + '/users/deposit',
+        `${DOMAIN_BACKEND}${apiV1}/users/deposit`,
         createDepositDto,
         {
           headers: {
@@ -128,8 +128,8 @@ export class TransactionService {
     const applyData = createCFDDto;
     const { data } = await lastValueFrom(
       this.httpService.post<ReturnCreateCFDOrderDto>(
-        DOMAIN_BACKEND + '/users/cfds/create',
-        { applyData: applyData, userSignature: eip712signature },
+        `${DOMAIN_BACKEND}${apiV1}/users/cfds/create`,
+        { applyData, userSignature: eip712signature },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ export class TransactionService {
     });
     const { data } = await lastValueFrom(
       this.httpService.put<ReturnCloseCFDOrderDto>(
-        DOMAIN_BACKEND + '/users/cfds/close',
+        `${DOMAIN_BACKEND}${apiV1}/users/cfds/close`,
         { applyData: closeCFDOrderDto, userSignature: eip712signature },
         {
           headers: {
