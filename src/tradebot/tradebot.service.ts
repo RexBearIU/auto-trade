@@ -30,15 +30,12 @@ export class TradebotService {
         tradebot.wallet.privateKey.slice(2),
       );
       // TODO: (20240315 Jacky) : Should store the tradebot in the database in the future
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 2; i++) {
         const register = await this.userService.registerUser(
           tradebot.wallet.address,
           tradebot.dewt,
         );
         if (register.success == true) {
-          this.logger.log(
-            'Tradebot ' + tradebot.id + ' regist is ' + register.success,
-          );
           // TODO: maybe add the tradebot to the database
           this.tradebotArray.push(tradebot);
           this.logger.log(
@@ -52,22 +49,20 @@ export class TradebotService {
           return tradebot;
         }
       }
+      throw new Error('Failed to register tradebot' + tradebot.id);
     } catch (error) {
       this.logger.error('Error creating tradebot: ' + error.message);
     }
   }
 
   async getAllTradebots(): Promise<Tradebot[]> {
-    if (this.tradebotArray.length === 0) {
-      this.logger.error('No tradebots found');
-    }
     return this.tradebotArray;
   }
 
   async getTradebotById(id: string): Promise<Tradebot> {
     const tradebot = this.tradebotArray.find((tradebot) => tradebot.id === id);
     if (!tradebot) {
-      this.logger.error('Tradebot not found');
+      throw new Error('Tradebot not found');
     }
     this.logger.log('Tradebot ' + tradebot.id + ' is found');
     return tradebot;

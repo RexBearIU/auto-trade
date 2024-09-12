@@ -8,9 +8,13 @@ import { DewtModule } from './dewt/dewt.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { TradebotModule } from './tradebot/tradebot.module';
 import { StrategiesModule } from './strategies/strategies.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UserModule,
     PriceTickerModule,
     DewtModule,

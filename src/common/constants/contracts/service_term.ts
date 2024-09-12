@@ -1,3 +1,5 @@
+import { DOMAIN, SERVICE_TERM_TITLE } from '../config';
+
 const ServiceTerm = {
   domain: {
     // Defining the chain aka Rinkeby testnet or Ethereum Main Net
@@ -17,16 +19,16 @@ const ServiceTerm = {
   - This is DApp Specific
   - Be as explicit as possible when building out the message schema.
   */
-    title: 'ServiceTerm',
+    title: SERVICE_TERM_TITLE,
     /* Deprecate: replace with following content (20230407 - tzuhan)
     content: 'You are going to use TideBit-DeFi and agree every rules in TideBit',
     from: '0xCAFECAAd15f96E1EfcD846e1ae27115645C6D606',
     to: 'TideBit-DeFi',
     */
-    domain: 'https://tidebit-defi.com',
+    domain: DOMAIN,
     agree: [
-      'https://tidebit-defi.com/term_of_service/{hash}',
-      'https://tidebit-defi.com/private_policy/{hash}',
+      `${DOMAIN}/term_of_service/{hash}`,
+      `${DOMAIN}/private_policy/{hash}`,
     ],
     // signer: '0xfc657dAf7D901982a75ee4eCD4bDCF93bd767CA4',
     // expired: getTimestamp() + 3600,

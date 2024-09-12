@@ -15,6 +15,7 @@ export class Tradebot {
     this.holdingStatus = 'WAIT';
     this.isRunning = false;
     if (
+      process.env.PRIVATE_KEY &&
       process.env.PRIVATE_KEY.length === 66 &&
       process.env.PRIVATE_KEY.startsWith('0x')
     ) {

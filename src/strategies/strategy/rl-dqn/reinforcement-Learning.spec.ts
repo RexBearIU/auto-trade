@@ -5,7 +5,7 @@ import { TradeAgent } from './tradeAgent';
 import { train } from './train';
 
 describe('RL test', () => {
-  it('should be run', () => {
+  it('should be run', async () => {
     // Create a sequential model
     const model = tf.sequential();
 
@@ -36,17 +36,24 @@ describe('RL test', () => {
       [1, 0],
       [0, 1],
     ]); // Modify the target tensor shape
-
     // Train the model
-    model.fit(xs, ys, { epochs: 100 }).then(() => {
-      // Make predictions
-      const tensor = tf.tensor2d([[0, 1]]);
-      const prediction = model.predict(tensor);
-      console.log('Prediction:', prediction);
-    });
+
+    console.log = () => {};
+    const predictionList = [];
+    await model.fit(xs, ys, { epochs: 30, verbose: 0 });
+
+    // Make predictions
+    const tensor = tf.tensor2d([[0, 1]]);
+    const prediction = model.predict(tensor);
+
+    predictionList.push(prediction);
+
+    // Optional: Add assertions here if needed
+    expect(prediction).toBeDefined();
   });
   it('DQN', async () => {
-    // Read the file
+    // Info: (20240912 - Jacky) This console.log is to avoid the console.log in the train function
+    console.log = () => {};
     const ethArrfile = fs.readFileSync('src/strategies/etharr.txt', 'utf8');
     const ethArr = JSON.parse(ethArrfile);
     const env = new Environment(ethArr);

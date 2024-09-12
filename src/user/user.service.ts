@@ -3,7 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { myAsset } from './dto/myAsset.dto';
 import { HistoryList } from './dto/history.dto';
-import { DOMAIN_BACKEND } from '../common/constants/config';
+import { apiV1, DOMAIN_BACKEND } from '../common/constants/config';
 
 @Injectable()
 export class UserService {
@@ -13,8 +13,8 @@ export class UserService {
   async registerUser(address: string, dewt: string): Promise<any> {
     const { data } = await firstValueFrom(
       this.httpService.post(
-        DOMAIN_BACKEND + '/dewt',
-        { address: address, deWT: dewt },
+        `${DOMAIN_BACKEND}${apiV1}/dewt`,
+        { address, deWT: dewt },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export class UserService {
   }
   async getMyAsset(dewt: string): Promise<myAsset> {
     const { data } = await firstValueFrom(
-      this.httpService.get<myAsset>(DOMAIN_BACKEND + '/users/assets', {
+      this.httpService.get<myAsset>(`${DOMAIN_BACKEND}${apiV1}/users/assets`, {
         headers: {
           'Content-Type': 'application/json',
           Dewt: dewt,
@@ -39,7 +39,7 @@ export class UserService {
   async listHistories(dewt: string, limit: string = '3'): Promise<HistoryList> {
     const { data } = await firstValueFrom(
       this.httpService.get<HistoryList>(
-        DOMAIN_BACKEND + '/bolt-transactions/history?limit=' + limit,
+        `${DOMAIN_BACKEND}${apiV1}/bolt-transactions/history?limit=${limit}`,
         {
           headers: {
             'Content-Type': 'application/json',

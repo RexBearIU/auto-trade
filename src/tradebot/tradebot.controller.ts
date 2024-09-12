@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Param, Put, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Query,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { TradebotService } from './tradebot.service';
 
 @Controller('tradebot')
@@ -9,7 +19,10 @@ export class TradebotController {
   async create() {
     const createTradebot = await this.tradebotService.create();
     if (!createTradebot) {
-      return 'Tradebot not created';
+      throw new HttpException(
+        'Tradebot not created',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
     const { returnDeposit, tradebot } =
       await this.tradebotService.receiveDeposit(createTradebot);

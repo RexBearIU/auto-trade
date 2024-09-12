@@ -18,7 +18,7 @@ export const getServiceTermContract = (address: string) => {
     agree: [TERM_OF_SERVICE, PRIVATE_POLICY],
     signer: address,
     expired: getTimestamp() + DeWT_VALIDITY_PERIOD,
-    iat: getTimestamp(),
+    iat: getTimestamp() - 2, // Info: (20240911 - Jacky) Set iat to 2 seconds ago
   };
   serviceTermsContract.message = message;
   return serviceTermsContract;
